@@ -13,6 +13,7 @@ int main () {
 	str[3] = '\0';
 	size_t i = 0;
 
+	//FAUTE : strcmp compare l'égalité entre 2 chaines de caractère avec le caractère de fin de chaine or la chaine str ne possède pas de caractère de fin de chaine
 	if (! strcmp (str, abc.c_str())) {
 		std::cout << "Equal !" << std::endl;
 	}
@@ -24,21 +25,21 @@ int main () {
 	std::cout << "Liste : " << list << std::endl;
 	std::cout << "Taille : " << list.size() << std::endl;
 
+	//FAUTE : rentre dans la boucle 3 fois et non 2 fois
 	// Affiche à l'envers
 	for (i= list.size() ; i > 0 ; i--) {
-		//std::cout << "//////"<< std::endl;
 		std::cout << "elt " << i << ": " << list[i-1] << std::endl;
 	}
-
-	//std::cout << ":::::::"<< std::endl;
 	
+	//FAUTE : pas besoin de libérer les char de la chaine
+
 	// liberer les char de la chaine
 	/*for (char *cp = str ; *cp ; cp++) {
 		delete cp;
 	}
 	*/
-	// --> pas besoin de libérer les char de la chaine
 
+	//FAUTE : on doit ajouter [] si on veut liberer un tableau 
 	// et la chaine elle meme
 	delete [] str;
 

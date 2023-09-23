@@ -1,10 +1,11 @@
-#include <iostream>
+//FAUTE : oubli include le fichier .h 
 #include "List.h"
 namespace pr {
 
 // ******************* Chainon
 Chainon::Chainon (const std::string & data, Chainon * next):data(data),next(next) {};
 
+//FAUTE : return la fonction elle-meme (recursion) -> boucle infini
 size_t Chainon::length() {
 	size_t len = 1;
 	if (next != nullptr) {
@@ -13,6 +14,7 @@ size_t Chainon::length() {
 	return len;
 }
 
+//FAUTE : oubli de const dans la signature de la fonction + next->print(os) en dehors du if -> segmentation fault (boucle infini)
 void Chainon::print (std::ostream & os) const {
 	os << data ;
 	if (next != nullptr) {
@@ -46,6 +48,7 @@ void List::push_front (const std::string& val) {
 	tete = new Chainon(val,tete);
 }
 
+//FAUTE : la fonction empty appartient a la classe LIST -> ne pas oublier le namespace
 bool List::empty() {
 	return tete == nullptr;
 }
@@ -58,6 +61,7 @@ size_t List::size() const {
 	}
 }
 
+//FAUTE : la fonction operator n'était pas dans le namespace pr -> soit decaler le crochet soit ajout pr:: devant operator
 std::ostream & operator<< (std::ostream & os, const pr::List & vec)
 {
 	os << "[";
