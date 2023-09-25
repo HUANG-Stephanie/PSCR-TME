@@ -9,6 +9,7 @@ namespace pr{
         int compare(const char* a, const char* b);
         friend bool operator==(const String &a,const String &b);
         bool operator<(const String & b) const;
+        int String::compare2(const String &a, const String &b);
     };
     bool operator==(const String &a,const String &b);
 }

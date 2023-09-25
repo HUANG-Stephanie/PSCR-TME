@@ -30,7 +30,7 @@ namespace pr {
         }
         return false;
     }
-    
+
     bool operator==(const String &a, const String &b)
     {
         if(a.length() != b.length()){
@@ -42,5 +42,16 @@ namespace pr {
             }
         }
         return true;
+    }
+
+     int String::compare2(const String &a, const String &b)
+    {
+        if(operator==(a,b)){
+            return 0;
+        }
+        if(a.operator<(b)){
+            return 1;
+        }
+        return -1;
     }
 }
