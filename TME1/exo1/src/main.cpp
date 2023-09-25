@@ -25,7 +25,7 @@ int main () {
 	std::cout << "Liste : " << list << std::endl;
 	std::cout << "Taille : " << list.size() << std::endl;
 
-	//FAUTE : rentre dans la boucle 3 fois et non 2 fois à cause du type size_t
+	//FAUTE : rentre dans la boucle 3 fois et non 2 fois à cause du type size_t non signé qui n'accepte pas les nombres négatif onc la condition i>=0 sera toujours vrai
 	// Affiche à l'envers
 	for (i= list.size()-1 ; i >= 0 ; i--) {
 		std::cout << "elt " << i << ": " << list[i] << std::endl;
