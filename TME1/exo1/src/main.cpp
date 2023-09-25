@@ -11,7 +11,7 @@ int main () {
 	str[1] = 'b';
 	str[2] = 'c';
 	str[3] = '\0';
-	size_t i = 0;
+	int i = 0;
 
 	//FAUTE : strcmp compare l'égalité entre 2 chaines de caractère avec le caractère de fin de chaine or la chaine str ne possède pas de caractère de fin de chaine
 	if (! strcmp (str, abc.c_str())) {
@@ -25,10 +25,10 @@ int main () {
 	std::cout << "Liste : " << list << std::endl;
 	std::cout << "Taille : " << list.size() << std::endl;
 
-	//FAUTE : rentre dans la boucle 3 fois et non 2 fois
+	//FAUTE : rentre dans la boucle 3 fois et non 2 fois à cause du type size_t
 	// Affiche à l'envers
-	for (i= list.size() ; i > 0 ; i--) {
-		std::cout << "elt " << i << ": " << list[i-1] << std::endl;
+	for (i= list.size()-1 ; i >= 0 ; i--) {
+		std::cout << "elt " << i << ": " << list[i] << std::endl;
 	}
 	
 	//FAUTE : pas besoin de libérer les char de la chaine
