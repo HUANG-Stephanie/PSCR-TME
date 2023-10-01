@@ -2,7 +2,7 @@
 #include <iostream>
 
 template <typename K, typename V>
-HashTable<K,V>::HashTable(size_t n) : buckets(n) {}
+HashTable<K,V>::HashTable(size_t n) : buckets(n) sz(n) {}
 
 
 template <typename K, typename V>
@@ -18,6 +18,9 @@ V* HashTable<K, V>::get(const K & key) {
 
 template <typename K, typename V>
 bool HashTable<K, V>::put(const K & key, const V & value) {
+    if(sz >= buckets.size() * 0.8) {
+        grow();
+    }
     size_t i = hash<K>{}(key) % buckets.size();
     for (auto & e : buckets[i]) {
         if (e.key == key) {

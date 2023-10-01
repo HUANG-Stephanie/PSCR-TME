@@ -13,6 +13,7 @@ public:
       V value;
     };
     vector<forward_list<Entry>> buckets;
+    size_t sz;
     HashTable(size_t n);
     V* get(const K & key);
     bool put (const K & key, const V & value);
