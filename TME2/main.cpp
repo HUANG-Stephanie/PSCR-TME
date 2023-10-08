@@ -163,16 +163,13 @@ int main () {
 		cout << "Found " << copy2[i].second << " times the word " << copy2[i].first << endl;
 	}*/
 
-	//TME3 Q7
-	cout << "Copying hash table to vector" << endl;
-	for(auto & e : map){
-		copy2.emplace_back(e.first, e.second);
+	//TME3 Q8
+	for(auto &e : map){
+		map2[e.second].push_front(e.first);
 	}
-
-	sort(copy2.begin(),copy2.end(),[](const pair<string,int> &a, const pair<string,int> &b){return a.second > b.second;});
-
-	for(size_t i = 0; i < 10; i++){
-		cout << "Found " << copy2[i].second << " times the word " << copy2[i].first << endl;
+	cout << "Printing words that appear 10 times" << endl;
+	for(auto &e : map2[10]){
+		cout << e << endl;
 	}
     return 0;
 }
