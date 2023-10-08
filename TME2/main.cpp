@@ -2,7 +2,9 @@
 #include <fstream>
 #include <regex>
 #include <chrono>
+#include <forward_list>
 #include "hash_table.hpp"
+#include <unordered_map>
 
 int main () {
 	using namespace std;
@@ -14,12 +16,15 @@ int main () {
 	vector<pair<string,int>> wpt;
 	HashTable<string,int> hash_table(100000);
 	vector<pair<string,int>> copy;
+	vector<pair<string,int>> copy2;
+	unordered_map<string,int> map;
+	unordered_map<int,forward_list<string> > map2;
 	
 
 	auto start = steady_clock::now();
 	cout << "Parsing War and Peace" << endl;
 
-	size_t nombre_lu = 0;
+	//size_t nombre_lu = 0;
 	// prochain mot lu
 	string word;
 	// une regex qui reconnait les caractères anormaux (négation des lettres)
@@ -59,14 +64,23 @@ int main () {
 
 		// Q6
 		// on ajoute les mots à la table de hachage hash_table, s'il y est déjà on incrémente le compteur 
-		int *value = hash_table.get(word);
+		/*int *value = hash_table.get(word);
 		if (value != nullptr){
 			(*value)++;
 		}
 		else{
 			hash_table.put(word,1);
+		}*/
+
+		//TME3 Q7
+		auto it = map.find(word);
+		if(it != map.end()){
+			(it->second)++;
 		}
-		
+		else{
+			map.insert(make_pair(word,1));
+		}
+
 		// word est maintenant "tout propre"
 		/*if (nombre_lu % 100 == 0)
 			// on affiche un mot "propre" sur 100
@@ -118,7 +132,8 @@ int main () {
 	// il est donc plus efficace d'utiliser une table de hashage pour stocker les mots et leur nombre d'apparition
 
 	// copie de la table de hashage dans un vecteur
-	for (size_t i = 0; i < hash_table.size(); i++)
+	
+	/*for (size_t i = 0; i < hash_table.size(); i++)
 	{
 		for (auto & e : hash_table.buckets[i]) {
 			copy.push_back(make_pair(e.key,e.value));
@@ -133,7 +148,32 @@ int main () {
 	{
 		cout << "Found " << copy[i].second << " times the word " << copy[i].first << endl;
 	}
+	
 
+	//TME3 Q5
+	cout << "Copying hash table to vector" << endl;
+	for(auto _it = hash_table.begin(), _end = hash_table.end(); _it.operator!=(_end); _it.operator++()){
+		HashTable<string, int>::Entry & e = _it.operator*();
+		copy2.emplace_back(e.key, e.value);
+	}
+
+	sort(copy2.begin(),copy2.end(),[](const pair<string,int> &a, const pair<string,int> &b){return a.second > b.second;});
+
+	for(size_t i = 0; i < 10; i++){
+		cout << "Found " << copy2[i].second << " times the word " << copy2[i].first << endl;
+	}*/
+
+	//TME3 Q7
+	cout << "Copying hash table to vector" << endl;
+	for(auto & e : map){
+		copy2.emplace_back(e.first, e.second);
+	}
+
+	sort(copy2.begin(),copy2.end(),[](const pair<string,int> &a, const pair<string,int> &b){return a.second > b.second;});
+
+	for(size_t i = 0; i < 10; i++){
+		cout << "Found " << copy2[i].second << " times the word " << copy2[i].first << endl;
+	}
     return 0;
 }
 
