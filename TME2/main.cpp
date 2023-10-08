@@ -64,22 +64,22 @@ int main () {
 
 		// Q6
 		// on ajoute les mots à la table de hachage hash_table, s'il y est déjà on incrémente le compteur 
-		/*int *value = hash_table.get(word);
+		int *value = hash_table.get(word);
 		if (value != nullptr){
 			(*value)++;
 		}
 		else{
 			hash_table.put(word,1);
-		}*/
+		}
 
 		//TME3 Q7
-		auto it = map.find(word);
+		/*auto it = map.find(word);
 		if(it != map.end()){
 			(it->second)++;
 		}
 		else{
 			map.insert(make_pair(word,1));
-		}
+		}*/
 
 		// word est maintenant "tout propre"
 		/*if (nombre_lu % 100 == 0)
@@ -152,9 +152,8 @@ int main () {
 
 	//TME3 Q5
 	cout << "Copying hash table to vector" << endl;
-	for(auto _it = hash_table.begin(), _end = hash_table.end(); _it.operator!=(_end); _it.operator++()){
-		HashTable<string, int>::Entry & e = _it.operator*();
-		copy2.emplace_back(e.key, e.value);
+	for(auto &e : hash_table){
+		copy2.push_back(make_pair(e.key,e.value));
 	}
 
 	sort(copy2.begin(),copy2.end(),[](const pair<string,int> &a, const pair<string,int> &b){return a.second > b.second;});
@@ -164,13 +163,13 @@ int main () {
 	}*/
 
 	//TME3 Q8
-	for(auto &e : map){
+	/*for(auto &e : map){
 		map2[e.second].push_front(e.first);
 	}
 	cout << "Printing words that appear 10 times" << endl;
 	for(auto &e : map2[10]){
 		cout << e << endl;
-	}
+	}*/
     return 0;
 }
 
