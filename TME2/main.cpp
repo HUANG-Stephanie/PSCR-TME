@@ -67,7 +67,6 @@ int main () {
 			hash_table.put(word,1);
 		}
 		
-		
 		// word est maintenant "tout propre"
 		/*if (nombre_lu % 100 == 0)
 			// on affiche un mot "propre" sur 100
