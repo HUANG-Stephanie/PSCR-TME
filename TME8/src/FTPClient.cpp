@@ -20,15 +20,21 @@ int main(int argc, char ** argv) {
     struct sockaddr_in sin;
     sin.sin_family = AF_INET;
     sin.sin_port = htons(PORT);
-    sin.sin_addr.s_addr = INADDR_ANY;
+    sin.sin_addr.s_addr = htonl(INADDR_ANY);
     char buff[256];
+    int msg = 10;
 
     int socketClient = socket(AF_INET, SOCK_STREAM, 0);
 
-    connect(socketClient, (struct sockaddr *) &sin, sizeof(sin));
-    int msg = 10;
-    write(socketClient, &msg, sizeof(msg));
+    if (connect(socketClient, (struct sockaddr*)&sin, sizeof(sin)) == -1) {
+        perror("Connection failed");
+        close(socketClient);
+        return -1;
+    }
+
     cout << "Client send" << endl;
+    write(socketClient, &msg, sizeof(msg));
+    cout << "Client read" << endl;
     read(socketClient, buff, 256);
     cout << buff << endl;
     shutdown(socketClient, 2);

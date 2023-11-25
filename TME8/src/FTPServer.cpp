@@ -5,6 +5,9 @@
 #include <sys/un.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
 #define PORT 3000
 
 using namespace std;
@@ -24,23 +27,33 @@ int main(int argc, char ** argv) {
 
     int port = atoi(argv[1]);
     */
-    struct sockaddr_in sin;
+  
+    struct sockaddr_in exp; // socket communication
+    struct sockaddr_in sin; // socket connexion
     sin.sin_family = AF_INET;
     sin.sin_port = htons(PORT);
-    sin.sin_addr.s_addr = INADDR_ANY;
-    socklen_t fromlen = sizeof(sin);
+    sin.sin_addr.s_addr = htonl(INADDR_ANY);
+    socklen_t fromlen = sizeof(exp);
     const char* hello = "Hello World";
     int msg;
   
     int socketServer = createSocket(sin);
     
-    int w = accept(0, (struct sockaddr *)&sin, &fromlen); // envoie une descripteur
-    read(w,&msg,sizeof(msg));
-    cout << msg << endl;
-    send(w, hello, strlen(hello), 0);
-    cout << "Server send" << endl;
-    shutdown(w, 2);
-    close(w);
-
+    while(1){
+        int w = accept(socketServer, (struct sockaddr *)&exp, &fromlen); // envoie une descripteur
+        if (w < 0) {
+            perror("Accept failed");
+            close(socketServer);
+            exit(EXIT_FAILURE);
+        }
+        cout << "Server read" << endl;
+        read(w,&msg,sizeof(msg));
+        cout << msg << endl;
+        send(w, hello, strlen(hello), 0);
+        cout << "Server send" << endl;
+        shutdown(w, 2);
+        close(w);
+    }
+    close(socketServer);
 	return 0;
 }
