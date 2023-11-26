@@ -34,8 +34,9 @@ int main(int argc, char ** argv) {
     sin.sin_port = htons(PORT);
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
     socklen_t fromlen = sizeof(exp);
-    const char* hello = "Hello World";
+    char hello[80];
     int msg;
+    strcpy(hello, "Hello World");
   
     int socketServer = createSocket(sin);
     
