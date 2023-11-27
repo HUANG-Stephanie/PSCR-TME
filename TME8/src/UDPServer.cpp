@@ -7,6 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <unordered_map>
+
+using namespace std;
 
 int main(int argc, char** argv)
 {
@@ -16,12 +19,15 @@ int main(int argc, char** argv)
     int PORT = atoi(argv[1]);
 
     struct sockaddr_in sin; // socket serveur
-    struct sockaddr_in exp; // socket expediteur
-    char host[64];
+    struct sockaddr_in exp; // socket expediteur = du client
+    char host[64]; // nom de la machine 
     int sc;
     socklen_t fromlen = sizeof(exp);
     char message[80];
     int cpt = 1;
+    unordered_map<string, string> map;
+    char ident[80];
+    char value[80];
 
     if((sc = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("socket");
@@ -39,6 +45,7 @@ int main(int argc, char** argv)
         exit(2);
     }
     
+    // TEST
     if(recvfrom(sc, message, sizeof(message), 0, (struct sockaddr*)&exp, &fromlen) == -1)
     {
         perror("recvfrom");
@@ -61,6 +68,26 @@ int main(int argc, char** argv)
     {
         perror("sendto");
         exit(4);
+    }
+
+    // STOCKAGE DES REQUETE DANS LA MAP
+    while(1)
+    {
+        if(recvfrom(sc, ident, sizeof(ident), 0, (struct sockaddr*)&exp, &fromlen) == -1)
+        {
+            perror("recvfrom");
+            exit(2);
+        }
+        if(recvfrom(sc, value, sizeof(value), 0, (struct sockaddr*)&exp, &fromlen) == -1)
+        {
+            perror("recvfrom");
+            exit(2);
+        }
+        map.insert(make_pair(ident, value));
+        for (const auto& n : map)
+        {
+            cout << n.first << " : " << n.second << endl;
+        } 
     }
 
     close(sc);
