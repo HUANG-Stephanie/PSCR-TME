@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if(recvfrom(sock, &reponse, sizeof(reponse), 0, 0, &fromlen) == -1)
+    if(recvfrom(sock, &reponse, sizeof(reponse), 0, (struct sockaddr*)&dest, &fromlen) == -1)
     {
         perror("recfrom");
         exit(1);
