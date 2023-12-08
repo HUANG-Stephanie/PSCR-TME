@@ -59,36 +59,48 @@ int main(int argc, char *argv[])
     printf("Reponse : %d\n", reponse);
     
     // LECTURE REQUETES ET ENVOIE
-    char requete[80];
-    vector<char*> requetes;
-    while(true)
-    {
-        if(strcmp(requete, "Q") == 0)
-        { break;}
-        cin.getline(requete, sizeof(requete));
-        requetes.push_back(requete);
-    }
-    
-    cout << requetes[0] << endl;
+    string requetes;
+
+    getline(cin, requetes);
+    cout<<requetes<<endl;
+
+    string s1;
+    string s2;
+
     for(int i = 0; i<requetes.size();)
     {
         cout << "la" << endl;
         cout << requetes[i] << endl;
-        if(strcmp(requetes[i], "S") == 0)
+        if(requetes[i]== 'S')
         {
             cout << "ici" << endl;
-            if(sendto(sock, requetes[i+1], strlen(requetes[i+1])+1, 0, (struct sockaddr*)&dest, sizeof(dest)) == -1)
+            int j = i;
+            for(; requetes[j]!=' '; j++)
+            {
+                s1 += requetes[j];
+            }
+            s1 += '\0';
+            i = ++j;
+            for(; requetes[i]!=';'; i++)
+            {
+                s2 += requetes[i];
+            }
+            s2 += '\0';
+
+            if(sendto(sock, s1.c_str(), s1.size(), 0, (struct sockaddr*)&dest, sizeof(dest)) == -1)
             {
                 perror("sendto");
                 exit(1);
             }
-            if(sendto(sock, requetes[i+2], strlen(requetes[i+2])+1, 0, (struct sockaddr*)&dest, sizeof(dest)) == -1)
+            if(sendto(sock, s2.c_str(), s2.size(), 0, (struct sockaddr*)&dest, sizeof(dest)) == -1)
             {
                 perror("sendto");
                 exit(1);
             }
-            i+=2;
-        }else{
+        }else if (requetes[i] == 'Q'){
+            break;
+        }
+        else {
             i++;
         }
     }

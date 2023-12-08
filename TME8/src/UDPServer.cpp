@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     }
     
     // TEST
-    if(recvfrom(sc, message, sizeof(message), 0, (struct sockaddr*)&exp, &fromlen) == -1)
+    if(recvfrom(sc, message, sizeof(message), 0, (struct sockaddr*)&exp, &fromlen) == -1) //receive MESSAGE DU CLIENT
     {
         perror("recvfrom");
         exit(2);
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
     printf("Message : %s\n", message);
     
     printf("SERVER SEND\n");
-    if(sendto(sc, &cpt, sizeof(cpt), 0, (struct sockaddr*)&exp, fromlen) == -1)
+    if(sendto(sc, &cpt, sizeof(cpt), 0, (struct sockaddr*)&exp, fromlen) == -1) // send 1
     {
         perror("sendto");
         exit(4);

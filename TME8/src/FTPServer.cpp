@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define PORT 3000
+//#define PORT 3000
 
 using namespace std;
 
@@ -21,12 +21,11 @@ int createSocket(struct sockaddr_in sin)
 }
 
 int main(int argc, char ** argv) {
-    /*
+
     if(argc < 2)
         exit(0);
 
-    int port = atoi(argv[1]);
-    */
+    int PORT = atoi(argv[1]);
   
     struct sockaddr_in exp; // socket communication
     struct sockaddr_in sin; // socket connexion
